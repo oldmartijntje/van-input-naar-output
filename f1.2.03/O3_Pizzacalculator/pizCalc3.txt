@@ -1164,3 +1164,14 @@
 -------------------------------------
 |   Price   | €53.95|
 
+-------------------------------------
+|Pizza  size|large|
+| Pepperoni |large|
+|  Cheese   |large|
+| Pineapple |humongous|
+|    Ham    |humongous|
+|Tomatosauce|humongous|
+|   Tuna    |humongous|
+-------------------------------------
+|   Price   | €534.85|
+
