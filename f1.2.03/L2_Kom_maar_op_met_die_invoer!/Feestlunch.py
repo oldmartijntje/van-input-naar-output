@@ -1,0 +1,8 @@
+croissantjes = float(input("aantal kwaksanntjes? >>>"))
+eurocent = float(input("kosten kwaksanntje pers tuk? >>>"))
+stokbroden = float(input("aantal stickbreads? >>>"))
+euro = float(input("kosten stickbreads per stuk? >>>"))
+kortingsbonnen = float(input("aantal kortingsbonnen? >>>"))
+kortingsbonnenprijs = float(input("de prijs van de kortingsbonnen? >>>"))
+eindebrag = (croissantjes * eurocent/100 + stokbroden * euro/100) - (kortingsbonnen * kortingsbonnenprijs/100)
+print("De feestlunch kost je bij de bakker " + str(eindebrag) + " euro voor de " + str(croissantjes) + " croissantjes en de " + str(stokbroden) + " stokbroden als de " + str(kortingsbonnen) + " kortingsbonnen nog geldig zijn") 
