@@ -68,15 +68,29 @@ def calculateCosts(dough, pepperoni, cheese, pineapple, ham, tomatosauce, tuna):
     return price
 #dit is de setup zodat de rest werkt
 import os.path
+try:
+    os.remove("pizCalc3.txt")
+except:
+    fd=2
+try:
+    os.remove("pizCalc2.txt")
+except:
+    fd=1
+try:
+    os.remove("pizCalc1.txt")
+except:
+    fd=4
 loop = True
 round = 1
 round2 = 1
 totalcosts = 0
+pizzaAmount = "startup"
 import os
+
 #dit is een loop die je blijft vragen of je meer wilt bestellen en of je de menu kaart wilt zien
 while loop == True:
-    menukaart = input("wilt u het menu zien? >>>")
-    if menukaart == "ja" or menukaart == "Ja":
+    menukaart = input("do you want to look at the menu? >>>")
+    if menukaart == "yes" or menukaart == "Yes":
         print("----------------------------------------------------------")   
         print("|             |  small  |  medium  |  large  | humongous | humangous==10*large") 
         print("|    Dough    |   €1    |   €1.5   |    €2   |           |") 
@@ -87,144 +101,154 @@ while loop == True:
         print("| tomatosauce |  €0.1   |   €0.2   |  €0.3   |    €0.5   |")
         print("|    tuna     |  €1.2   |   €1.5   |  €1.9   |    €19    |")
         print("----------------------------------------------------------")   
-    pizzaAmount = int(input("hoeveel pizza's wilt u? >>>"))
-    if pizzaAmount >= 0:
-        #dit blijft herhalen tot het zoveel keer heeft herhaald als het aantal pizza's
-        while round <= pizzaAmount:
-            round += 1
-            #dit bekijkt of het al de 2e ronde is, want als je al een ronde bent geweest kan je de input skippen om de zelfde configuratie als de vorige pizza te nemen
-            if round > 2:
-                again = input("wilt u dezelfe pizza als de vorige bestelling? >>>")
-                if again == "ja" or again == "Ja":
-                    print("okay")
-                #hier vul je in welke topping je wilt als je een andere pizza wilt
+    try:
+        pizzaAmount = int(input("how many pizzas? >>>"))
+    except:
+        print("maybe try putting in a number next time")
+    if pizzaAmount != "startup":
+        if pizzaAmount >= 0:
+
+            #dit blijft herhalen tot het zoveel keer heeft herhaald als het aantal pizza's
+            while round <= pizzaAmount:
+                round += 1
+
+                #dit bekijkt of het al de 2e ronde is, want als je al een ronde bent geweest kan je de input skippen om de zelfde configuratie als de vorige pizza te nemen
+                if round > 2:
+                    again = input("do you want to repeat the last order? >>>")
+                    if again == "yes" or again == "Yes":
+                        print("Okay")
+
+                    #hier vul je in welke topping je wilt als je een andere pizza wilt
+                    else:
+                        print("for pizza number " + str(round -1) + ", which specifications do you want? U don't have to choose all things")
+                        dough = input("Dough >>>")
+                        pepperoni = input("Pepperoni >>>")
+                        cheese = input("Cheese >>>")
+                        pineapple = input("Pineapple >>>")
+                        ham = input("Ham >>>")
+                        tomatosauce = input("tomatosauce >>>")
+                        tuna = input("Tuna >>>")
+
+                #dit is voor de 1e pizza, waarbij je invult wat je wilt
                 else:
-                    print("zeg niks als u het pebaalde ding niet wilt")
-                    print("Voor pizza nummero " + str(round -1) + ", welke size wilt u van:")
+                    print("for pizza number " + str(round -1) + ", which specifications do you want? U don't have to choose all things")
                     dough = input("Dough >>>")
                     pepperoni = input("Pepperoni >>>")
                     cheese = input("Cheese >>>")
                     pineapple = input("Pineapple >>>")
                     ham = input("Ham >>>")
-                    tomatosauce = input("tomatocause >>>")
+                    tomatosauce = input("tomatosauce >>>")
                     tuna = input("Tuna >>>")
-            #dit is voor de 1e pizza, waarbij je invult wat je wilt
-            else:
-                print("zeg niks als u het pebaalde ding niet wilt")
-                print("Voor pizza nummero " + str(round -1) + ", welke size wilt u van:")
-                dough = input("Dough >>>")
-                pepperoni = input("Pepperoni >>>")
-                cheese = input("Cheese >>>")
-                pineapple = input("Pineapple >>>")
-                ham = input("Ham >>>")
-                tomatosauce = input("tomatocause >>>")
-                tuna = input("Tuna >>>")
-            #hier kijk je of de order.txt bestaat, en zo niet, dan maakt het een nieuwe order.txt
-            if os.path.isfile("order.txt"):
-                print("yes")
-                f = open("order.txt", "a")
-            else:
-                print("no")
-                f = open("order.txt", "x")
-            #hier kijk je of de individualpizzacosts.txt bestaat, en zo niet, dan maakt het een nieuwe individualpizzacosts.txt
-            if os.path.isfile("individualpizzacosts.txt"):
-                print("yes")
-                file2 = open("individualpizzacosts.txt", "a")
-            else:
-                print("no")
-                file2 = open("individualpizzacosts.txt", "x")
-            #het aanroepen van de functie om de prijs van de pizza te berekenen
-            costPerPizza = calculateCosts(dough, pepperoni, cheese, pineapple, ham, tomatosauce, tuna)
-            #het uploaden naar een file
-            file2.write(str(costPerPizza));
-            #kijken of er dingen niet zijn gekozen
-            if dough != "small" or dough != "medium" or dough != "large" or dough != "humongous":
-                dough = "NONE"
-            if dough == "humongous":
-                dough = "large"
-            if pepperoni != "small" or pepperoni != "medium" or pepperoni != "large" or pepperoni != "humongous":
-                pepperoni = "NONE"
-            if cheese != "small" or cheese != "medium" or cheese != "large" or cheese != "humongous":
-                cheese  = "NONE"
-            if pineapple != "small" or pineapple != "medium" or pineapple != "large" or pineapple != "humongous":
-                pineapple = "NONE"
-            if ham != "small" or ham != "medium" or ham != "large" or ham != "humongous":
-                ham = "NONE"
-            if tomatosauce != "small" or tomatosauce != "medium" or tomatosauce != "large" or tomatosauce != "humongous":
-                tomatosauce = "NONE"
-            if tuna != "small" or tuna != "medium" or tuna != "large" or tuna != "humongous":
-                tuna = "NONE"
-            f.write(dough + "\n" + pepperoni + "\n" + cheese + "\n" + pineapple + "\n" + ham + "\n" + tomatosauce + "\n" + tuna)
-            totalcosts += costPerPizza
-            #sluiten van de files
-            f.close()
-            file2.close()
-        #het afrekenen
-        print("bij elkaar word dit een bedrag van: €" + str(totalcosts))
-        receipt = input("wilt u het bonnetje? >>>")
-        if receipt == "ja" or receipt == "Ja":
-            print("okay")
-            while round2 <= pizzaAmount:
-                round2 += 1
-                #hier kijk je of de receipt.txt bestaat, en zo niet, dan maakt het een nieuwe receipt.txt
-                if os.path.isfile("receipt.txt"):
-                    print("yes")
-                    receipt = open("receipt.txt", "a")
-                else:
-                    print("no")
-                    receipt = open("receipt.txt", "x")
-                #openen van andere files
-                file1 = open("order.txt", "r")
-                file2 = open("individualpizzacosts.txt", "r")
-                #data opslaan
-                lines1 = file1.readlines()
-                lines2 = file2.readlines()
-                file1.close()
-                file2.close()
-                #bonnetje schrijven naar file
-                receipt.write("-------------------------------------\n")
-                receipt.write("|Pizza  size|"+lines1[0]+ "|\n")
-                receipt.write("| Pepperoni |"+lines1[1]+ "|\n")
-                receipt.write("|  Cheese   |"+lines1[2]+ "|\n")
-                receipt.write("| Pineapple |"+lines1[3]+ "|\n")
-                receipt.write("|    Ham    |"+lines1[4]+ "|\n")
-                receipt.write("|Tomatosauce|"+lines1[5]+ "|\n")
-                receipt.write("|   Tuna    |"+lines1[6]+ "|\n")
-                receipt.write("-------------------------------------\n")
-                receipt.write("|   Price   |"+lines2[0]+ "|\n")
-                receipt.write("\n")
-                #files verwijderen
-                del lines1[0]
-                del lines1[1]
-                del lines1[2]
-                del lines1[3]
-                del lines1[4]
-                del lines1[5]
-                del lines1[6]
-                del lines2[0]
-                #heropenen en herschrijven van files
-                file1 = open("order.txt", "w+")
-                file2 = open("individualpizzacosts.txt", "w+")
-                for line in lines1:
-                    file1.write(line)
-                for line in lines2:
-                    file2.write(line)
-                receipt.close()
-            if os.path.isfile("receipt.txt"):
-                print("yes")
-                receipt = open("receipt.txt", "a")
-            else:
-                print("no")
-                receipt = open("receipt.txt", "x")
-            print(receipt.readlines())
-            receipt.close()
-        else:
-            print("okay")
-        #zet de loop uit
-        loop = False
-        #os.remove("order.txt")
-        #os.remove("individualpizzacosts.txt")
-    else:
-        print("je moet er sowieso 1 kopen")
 
-pizzaType = input("what pizza would you like?")
+                #hier kijk je of de pizCalc2.txt bestaat, en zo niet, dan maakt het een nieuwe pizCalc2.txt
+                if os.path.isfile("pizCalc2.txt"):
+                    f = open("pizCalc2.txt", "a")
+                else:
+                    f = open("pizCalc2.txt", "x")
+
+                #hier kijk je of de pizCalc1.txt bestaat, en zo niet, dan maakt het een nieuwe pizCalc1.txt
+                if os.path.isfile("pizCalc1.txt"):
+                    file2 = open("pizCalc1.txt", "a")
+                else:
+                    file2 = open("pizCalc1.txt", "x")
+
+                #het aanroepen van de functie om de prijs van de pizza te berekenen
+                costPerPizza = calculateCosts(dough, pepperoni, cheese, pineapple, ham, tomatosauce, tuna)
+                #het uploaden naar een file
+                file2.write(str(costPerPizza) + ",");
+
+                #kijken of er dingen niet zijn gekozen
+                if dough != "small" and dough != "medium" and dough != "large" and dough != "humongous":
+                    dough = "NONE"
+                if dough == "humongous":
+                    dough = "large"
+                if pepperoni != "small" and pepperoni != "medium" and pepperoni != "large" and pepperoni != "humongous":
+                    pepperoni = "NONE"
+                if cheese != "small" and cheese != "medium" and cheese != "large" and cheese != "humongous":
+                    cheese  = "NONE"
+                if pineapple != "small" and pineapple != "medium" and pineapple != "large" and pineapple != "humongous":
+                    pineapple = "NONE"
+                if ham != "small" and ham != "medium" and ham != "large" and ham != "humongous":
+                    ham = "NONE"
+                if tomatosauce != "small" and tomatosauce != "medium" and tomatosauce != "large" and tomatosauce != "humongous":
+                        tomatosauce = "NONE"
+                if tuna != "small" and tuna != "medium" and tuna != "large" and tuna != "humongous":
+                    tuna = "NONE"
+                f.write(dough + "," + pepperoni + "," + cheese + "," + pineapple + "," + ham + "," + tomatosauce + "," + tuna + ",")
+                totalcosts += costPerPizza
+
+                #sluiten van de files
+                f.close()
+                file2.close()
+
+            #het afrekenen
+            print("that will be an amount of €" + str(totalcosts))
+            receipt = input("do you want the receipt? >>>")
+            if receipt == "yes" or receipt == "Yes":
+                while round2 <= pizzaAmount:
+                    round2 += 1
+
+                    #hier kijk je of de pizCalc3.txt bestaat, en zo niet, dan maakt het een nieuwe pizCalc3.txt
+                    if os.path.isfile("pizCalc3.txt"):
+                        receipt = open("pizCalc3.txt", "a")
+                    else:
+                        receipt = open("pizCalc3.txt", "x")
+                    #openen van andere files
+
+                    file1 = open("pizCalc2.txt", "r")
+                    file2 = open("pizCalc1.txt", "r")
+                    #data opslaan
+
+                    lines1 = file1.read().split(',')
+                    lines2 = file2.read().split(',')
+                    file1.close()
+                    file2.close()
+
+                    #bonnetje schrijven naar file
+                    receipt.write("-------------------------------------\n")
+                    receipt.write("|Pizza  size|"+lines1[0]+ "|\n")
+                    receipt.write("| Pepperoni |"+lines1[1]+ "|\n")
+                    receipt.write("|  Cheese   |"+lines1[2]+ "|\n")
+                    receipt.write("| Pineapple |"+lines1[3]+ "|\n")
+                    receipt.write("|    Ham    |"+lines1[4]+ "|\n")
+                    receipt.write("|Tomatosauce|"+lines1[5]+ "|\n")
+                    receipt.write("|   Tuna    |"+lines1[6]+ "|\n")
+                    receipt.write("-------------------------------------\n")
+                    receipt.write("|   Price   |"+str(lines2[0])+ "|\n")
+                    receipt.write("\n")
+
+                    #files verwijderen
+                    del lines1[0]
+                    del lines1[0]
+                    del lines1[0]
+                    del lines1[0]
+                    del lines1[0]
+                    del lines1[0]
+                    del lines1[0]
+                    del lines2[0]
+                    #heropenen en herschrijven van files
+                    file1 = open("pizCalc2.txt", "w+")
+                    file2 = open("pizCalc1.txt", "w+")
+                    for line in lines1:
+                        file1.write(line + ",")
+                    for line in lines2:
+                        file2.write(line + ",")
+                    
+                    file1.close()
+                    file2.close()
+            
+                receipt.write("-------------------------------------\n")
+                receipt.write("|   Total   |"+str(totalcosts)+ "|\n")
+                receipt.close()
+                receipt = open("pizCalc3.txt", "r")
+                for x in receipt:
+                    print(x.strip())
+                receipt.close()
+            else:
+                print("okay")
+            #zet de loop uit
+            loop = False
+            
+        else:
+            print("you need to atleast buy 1")
+
