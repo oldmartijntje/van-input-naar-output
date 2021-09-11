@@ -69,15 +69,17 @@ def calculateCosts(dough, pepperoni, cheese, pineapple, ham, tomatosauce, tuna):
 #maakt random pizzas
 def randomTopping():
     from random import randrange
-    number = (randrange(4))
-    if number == 0:
+    number = (randrange(9))
+    if number == 0 or number == 7:
         returnValue = "small"
-    if number == 1:
+    if number == 1 or number == 6:
         returnValue = "medium"
-    if number == 2:
+    if number == 2 or number == 5:
         returnValue = "large"
-    if number == 3:
+    if number == 3 or number == 4:
         returnValue = "humongous"
+    if number == 8:
+        returnValue = "NONE"
     return returnValue
 
 #dit is de setup zodat de rest werkt
@@ -278,8 +280,8 @@ while loop == True:
                     file2 = open("pizCalc1.txt", "r")
                     #data opslaan
 
-                    lines1 = file1.read().split(',')
-                    lines2 = file2.read().split(',')
+                    lines1 = file1.read().split(',', 7)
+                    lines2 = file2.read().split(',', 1)
                     file1.close()
                     file2.close()
 
@@ -294,7 +296,6 @@ while loop == True:
                     receipt.write("|   Tuna    |"+lines1[6]+ "|\n")
                     receipt.write("-------------------------------------\n")
                     receipt.write("|   Price   | €"+str(lines2[0])+ "|\n")
-                    receipt.write("\n")
                     if allowRandom == "yes":
                         print(round2)
                     #files verwijderen
