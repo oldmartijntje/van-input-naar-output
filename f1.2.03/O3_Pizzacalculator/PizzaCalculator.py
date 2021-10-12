@@ -81,7 +81,6 @@ def randomTopping():
     if number == 8:
         returnValue = "NONE"
     return returnValue
-
 #dit is de setup zodat de rest werkt
 import os.path
 try:
@@ -104,7 +103,6 @@ pizzaAmount = "startup"
 randomized = "no"
 keepRandomized = "no"
 import os
-
 #dit is een loop die je blijft vragen of je meer wilt bestellen en of je de menu kaart wilt zien
 while loop == True:
     menukaart = input("do you want to look at the menu? >>>")
@@ -125,11 +123,9 @@ while loop == True:
         print("maybe try putting in a number next time")
     if pizzaAmount != "startup":
         if pizzaAmount >= 0:
-
             #dit blijft herhalen tot het zoveel keer heeft herhaald als het aantal pizza's
             while round <= pizzaAmount:
                 round += 1
-
                 #check if file4 exists
                 if os.path.isfile("pizCalc4.txt"):
                     file4 = open("pizCalc4.txt", "a")
@@ -138,7 +134,6 @@ while loop == True:
                 file4.close()
                 file4 = open("pizCalc4.txt", "r")
                 allowRandom = file4.read()
-
                 #dit bekijkt of het al de 2e ronde is, want als je al een ronde bent geweest kan je de input skippen om de zelfde configuratie als de vorige pizza te nemen
                 if round > 2:
                     if keepRandomized == "yes" or keepRandomized == "Yes":
@@ -173,7 +168,6 @@ while loop == True:
                                     tuna = randomTopping()
                             else:
                                 print("Okay")
-
                         #hier vul je in welke topping je wilt als je een andere pizza wilt
                         else:
                             if allowRandom == "yes":
@@ -186,7 +180,6 @@ while loop == True:
                                 ham = randomTopping()
                                 tomatosauce= randomTopping()
                                 tuna = randomTopping()
-
                             else:
                                 print("for pizza number " + str(round -1) + ", which specifications do you want? U don't have to choose all things")
                                 dough = input("Dough >>>")
@@ -196,7 +189,6 @@ while loop == True:
                                 ham = input("Ham >>>")
                                 tomatosauce = input("tomatosauce >>>")
                                 tuna = input("Tuna >>>")
-
                 #dit is voor de 1e pizza, waarbij je invult wat je wilt
                 else:
                     if allowRandom == "yes":
@@ -209,7 +201,6 @@ while loop == True:
                         ham = randomTopping()
                         tomatosauce= randomTopping()
                         tuna = randomTopping()
-
                     else:
                         print("for pizza number " + str(round -1) + ", which specifications do you want? U don't have to choose all things")
                         dough = input("Dough >>>")
@@ -220,24 +211,20 @@ while loop == True:
                         tomatosauce = input("tomatosauce >>>")
                         tuna = input("Tuna >>>")
                 file4.close()
-
                 #hier kijk je of de pizCalc2.txt bestaat, en zo niet, dan maakt het een nieuwe pizCalc2.txt
                 if os.path.isfile("pizCalc2.txt"):
                     f = open("pizCalc2.txt", "a")
                 else:
                     f = open("pizCalc2.txt", "x")
-
                 #hier kijk je of de pizCalc1.txt bestaat, en zo niet, dan maakt het een nieuwe pizCalc1.txt
                 if os.path.isfile("pizCalc1.txt"):
                     file2 = open("pizCalc1.txt", "a")
                 else:
                     file2 = open("pizCalc1.txt", "x")
-
                 #het aanroepen van de functie om de prijs van de pizza te berekenen
                 costPerPizza = calculateCosts(dough, pepperoni, cheese, pineapple, ham, tomatosauce, tuna)
                 #het uploaden naar een file
                 file2.write(str(costPerPizza) + ",")
-
                 #kijken of er dingen niet zijn gekozen
                 if dough != "small" and dough != "medium" and dough != "large" and dough != "humongous":
                     dough = "NONE"
@@ -256,35 +243,29 @@ while loop == True:
                 if tuna != "small" and tuna != "medium" and tuna != "large" and tuna != "humongous":
                     tuna = "NONE"
                 f.write(dough + "," + pepperoni + "," + cheese + "," + pineapple + "," + ham + "," + tomatosauce + "," + tuna + ",")
-                totalcosts += costPerPizza
-                
+                totalcosts += costPerPizza     
                 #sluiten van de files
                 f.close()
                 file2.close()
-
             #het afrekenen
             print("that will be an amount of €" + str(totalcosts))
             receipt = input("do you want the receipt? >>>")
             if receipt == "yes" or receipt == "Yes":
                 while round2 <= pizzaAmount:
                     round2 += 1
-
                     #hier kijk je of de pizCalc3.txt bestaat, en zo niet, dan maakt het een nieuwe pizCalc3.txt
                     if os.path.isfile("pizCalc3.txt"):
                         receipt = open("pizCalc3.txt", "a")
                     else:
                         receipt = open("pizCalc3.txt", "x")
                     #openen van andere files
-
                     file1 = open("pizCalc2.txt", "r")
                     file2 = open("pizCalc1.txt", "r")
                     #data opslaan
-
                     lines1 = file1.read().split(',', 7)
                     lines2 = file2.read().split(',', 1)
                     file1.close()
                     file2.close()
-
                     #bonnetje schrijven naar file
                     receipt.write("-------------------------------------\n")
                     receipt.write("|Pizza  size|"+lines1[0]+ "|\n")
@@ -313,11 +294,9 @@ while loop == True:
                     for line in lines1:
                         file1.write(line + ",")
                     for line in lines2:
-                        file2.write(line + ",")
-                    
+                        file2.write(line + ",")     
                     file1.close()
                     file2.close()
-            
                 receipt.write("-------------------------------------\n")
                 receipt.write("|   Total   |€"+str(totalcosts)+ "|\n")
                 receipt.close()
@@ -330,7 +309,5 @@ while loop == True:
             #zet de loop uit
             loop = False
             input("input to close >>>")
-            
         else:
             print("you need to atleast buy 1")
-
